@@ -4,7 +4,7 @@
 	$host	= 'localhost';
 	$user	= 'root';
 	$pass	= '';
-	$db		= 'spk-360';
+	$db		= 'spksales';
 	// $db		= 'spk360copy';
 	
 	$konek = mysqli_connect($host, $user, $pass);

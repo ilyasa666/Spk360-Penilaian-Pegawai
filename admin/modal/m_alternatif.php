@@ -14,11 +14,13 @@
 		$jenis_kelamin = isset($_POST['jenis_kelamin'])?mysqli_real_escape_string($con,htmlspecialchars($_POST['jenis_kelamin'])):"";
 		$status_nikah = isset($_POST['status_nikah'])?mysqli_real_escape_string($con,htmlspecialchars($_POST['status_nikah'])):"";
 		$no_telp = isset($_POST['no_telp'])?mysqli_real_escape_string($con,htmlspecialchars($_POST['no_telp'])):"";
+		$area_kerja = isset($_POST['area_kerja'])?mysqli_real_escape_string($con,htmlspecialchars($_POST['area_kerja'])):"";
+
 
 		if($btn=="Tambah"){
-			$sql = "INSERT INTO user (nip, id_jenis_user, password, nama_guru, status_guru, alamat, tempat_lahir, tgl_lahir, jenis_kelamin, status_nikah, no_telp) VALUES('$nip', '$id_jenis_user', '$password', '$nama_guru', '$status_guru', '$alamat', '$tempat_lahir', '$tgl_lahir', '$jenis_kelamin', '$status_nikah', '$no_telp') ";
+			$sql = "INSERT INTO user (nip, id_jenis_user, password, nama_guru, status_guru, alamat, tempat_lahir, tgl_lahir, jenis_kelamin, status_nikah, no_telp, area_kerja) VALUES('$nip', '$id_jenis_user', '$password', '$nama_guru', '$status_guru', '$alamat', '$tempat_lahir', '$tgl_lahir', '$jenis_kelamin', '$status_nikah', '$no_telp', '$area_kerja') ";
 		}else{
-			$sql = "UPDATE user SET id_jenis_user = '$id_jenis_user', password = '$password', nama_guru = '$nama_guru', status_guru = '$status_guru', alamat = '$alamat', tempat_lahir = '$tempat_lahir', tgl_lahir = '$tgl_lahir', jenis_kelamin = '$jenis_kelamin', status_nikah = '$status_nikah', no_telp = '$no_telp' WHERE nip = '$nip'";
+			$sql = "UPDATE user SET id_jenis_user = '$id_jenis_user', password = '$password', nama_guru = '$nama_guru', status_guru = '$status_guru', alamat = '$alamat', tempat_lahir = '$tempat_lahir', tgl_lahir = '$tgl_lahir', jenis_kelamin = '$jenis_kelamin', status_nikah = '$status_nikah', no_telp = '$no_telp', area_kerja = '$area_kerja' WHERE nip = '$nip'";
 		}
 		$query = mysqli_query($con, $sql);
 		if($query){
@@ -59,5 +61,3 @@
 		}
 		echo json_encode($data);
 	}
-
-?>

@@ -74,9 +74,7 @@ if (!isset($_GET['id'])) {
     $q = mysqli_query($con, $ssql);
     $rw = mysqli_fetch_array($q);
 
-    if ($rw['level'] == '1') {
-        $sebagai = 1;
-    } else if ($rw['level'] == '2') {
+    if ($rw['level'] == '0') {
         $sebagai = 0;
     } else {
         $sebagai = 1;

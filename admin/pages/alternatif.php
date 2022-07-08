@@ -22,6 +22,7 @@ if (isset($_GET['ubah'])) {
 		$status_nikah = $row['status_nikah'];
 		$row['status_nikah'] = $row['status_nikah'];
 		$no_telp = $row['no_telp'];
+		$area_kerja = $row['area$area_kerja'];
 		$btn = "Ubah";
 		$icn = "edit";
 	}
@@ -58,7 +59,7 @@ if (isset($_GET['ubah'])) {
 	<div class="card-body">
 		<div class="d-flex justify-content-between align-items-center mt-2 mb-5 mx-1">
 			<h4 class="m-0 font-weight-bold"> Data Alternatif</h6>
-			<button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Tambah Data</button>
+				<button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-plus"></i> Tambah Data</button>
 		</div>
 		<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 			<thead class="bg-info text-white">
@@ -191,6 +192,13 @@ if (isset($_GET['ubah'])) {
 							<input autocomplete="off" required type="text" class="form-control" id="no_telp" name="no_telp" value="<?= isset($no_telp) ? $no_telp : ""; ?>">
 						</div>
 					</div>
+
+					<div class="form-group row">
+						<label for="area_kerja" class="col-sm-2 control-form-label font-weight-bold">Area Kerja</label>
+						<div class="col-sm-10">
+							<input autocomplete="off" required type="text" class="form-control" id="area_kerja" name="area_kerja" value="<?= isset($area_kerja) ? $area_kerja : ""; ?>">
+						</div>
+					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fa fa-times"></i> Batal</button>
@@ -263,6 +271,10 @@ if (isset($_GET['ubah'])) {
 						<th class="bg-light">No Telp</th>
 						<td id="td_notelp"></td>
 					</tr>
+					<tr>
+						<th class="bg-light">Area Kerja</th>
+						<td id="td_area_kerja"></td>
+					</tr>
 				</table>
 			</div>
 		</div>
@@ -313,6 +325,7 @@ if (isset($_GET['ubah'])) {
 					$("#td_jk").html(res.jenis_kelamin == "L" ? "Laki-laki" : "Perempuan");
 					$("#td_status_nikah").html(res.status_nikah == "B" ? "Belum Nikah" : "Sudah Nikah");
 					$("#td_notelp").html(res.no_telp);
+					$("#td_area_kerja").html(res.area_kerja);
 				}
 			});
 			$('.infolengkap').modal('show');

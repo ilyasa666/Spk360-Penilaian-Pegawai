@@ -45,6 +45,8 @@ if (isset($_GET['logout'])) {
 
   <!-- <script src="../assets/vendor/jquery/jquery.min.js"></script> -->
   <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+  <script src="../assets/vendor/jquery/jquery.min.js" type="text/javascript"></script>
+	<script src="../assets/vendor/d3-chart/d3.v5.min.js" type="text/javascript"></script>
 
 
 </head>
@@ -144,6 +146,39 @@ if (isset($_GET['logout'])) {
         <a class="nav-link" href="index.php?p=periode">
           <i class="fas fa-fw fa-calendar-alt"></i>
           <span>Data Periode</span></a>
+      </li>
+      
+      <div class="sidebar-heading">
+        PENILAIAN
+      </div>
+
+      <?php if ($_SESSION[md5('level')] == 0) : ?>
+        <li class="nav-item <?php $p = $_GET['p'];
+                            if ($p == 'memilihpen') {
+                              echo "active";
+                            } ?>">
+          <a class="nav-link" href="index.php?p=memilihpen">
+            <i class="fas fa-fw fa-users-cog"></i>
+            <span>Data Pemilihan Penilai</span></a>
+        </li>
+      <?php endif; ?>
+
+      <li class="nav-item <?php $p = $_GET['p'];
+                          if ($p == 'melakukanpen') {
+                            echo "active";
+                          } ?>">
+        <a class="nav-link" href="index.php?p=melakukanpen">
+          <i class="fas fa-fw fa-edit"></i>
+          <span>Data Penilaian</span></a>
+      </li>
+
+      <li class="nav-item <?php $p = $_GET['p'];
+                          if ($p == 'laporanpen') {
+                            echo "active";
+                          } ?>">
+        <a class="nav-link" href="index.php?p=laporanpen">
+          <i class="fas fa-fw fa-print"></i>
+          <span>Data Laporan</span></a>
       </li>
 
 

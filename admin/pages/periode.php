@@ -138,7 +138,7 @@ if (isset($_GET['ubah'])) {
 					<input type="hidden" name="btnSimpan" value="<?= $btn; ?>">
 
 					<div class="form-group">
-						<label class="font-weight-bold">Tahun Ajaran</label>
+						<label class="font-weight-bold">Periode</label>
 						<input autocomplete="off" type="text" name="tahun_ajar" id="tahun_ajar" value="<?= isset($tahun_ajar) ? $tahun_ajar : ""; ?>" required class="form-control" />
 					</div>
 

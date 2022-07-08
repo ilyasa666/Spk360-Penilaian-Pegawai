@@ -61,7 +61,6 @@ $sql = "SELECT
 			GROUP BY tbnilai.penilai";
 //echo $sql;
 $q = mysqli_query($con, $sql);
-$jumlah = mysqli_num_rows($q);
 $nno = 0;
 echo "<br>";
 $tot_arr['atasan'] = 0;
@@ -72,9 +71,9 @@ $tot_objektif = 0;
 $tot_keterampilan = 0;
 while ($row = mysqli_fetch_array($q)) {
 	$tot = 0;
-	$kp = ($row['Kepribadian']);
-	$ss = ($row['Objektif Bisnis']);
-	$pr = ($row['Keterampilan']);
+	$kp = ($row['Kepribadian'] / 5) * 100;
+	$ss = ($row['Objektif Bisnis'] / 4) * 100;
+	$pr = ($row['Keterampilan'] / 5) * 100;
 
 	$tot_kepribadian += $kp;
 	$tot_objektif += $ss;
@@ -85,7 +84,7 @@ while ($row = mysqli_fetch_array($q)) {
 
 	/* prestasi kinerja individu */
 	// $tot = ($kp + $ss + $pr);
-	$tot = $kp + $ss  + $pr;
+	$tot = ($kp * ($b_Kepribadian / 100)) + ($ss * ($b_Sosial / 100)) + ($pr * ($b_Profesional / 100));
 
 	if ($row['level'] == 2 || $row['level'] == 3) {
 		$tot_arr['atasan'] += $tot;
@@ -111,8 +110,7 @@ if ($row['setting'] != '') {
 	$set[2] = 0.2;
 }
 
-$ak = ($tot_arr['atasan'] + $tot_arr['guru'] + $tot_arr['sendiri']) / $jumlah;
-
+$ak = ($tot_arr['atasan'] * $set[0]) + ($tot_arr['guru'] * $set[1]) + ($tot_arr['sendiri'] * $set[2]);
 //$ak = ($tot_arr['atasan']*0.5) + ($tot_arr['guru']*0.3) + ($tot_arr['sendiri']*0.2);		
 ?>
 <script>
@@ -125,9 +123,9 @@ $ak = ($tot_arr['atasan'] + $tot_arr['guru'] + $tot_arr['sendiri']) / $jumlah;
 
 
 	echo "var data_kompetensi = [";
-	echo "{oleh: 'Kepribadian', nilai: " . number_format($tot_kepribadian, 2) . " },";
-	echo "{oleh: 'Sosial', nilai: " . number_format($tot_objektif, 2) . " },";
-	echo "{oleh: 'Profesional', nilai: " . number_format($tot_keterampilan, 2) . " }";
+	echo "{oleh: 'Kepribadian', nilai: " . number_format($tot_kepribadian / 10, 2) . " },";
+	echo "{oleh: 'Sosial', nilai: " . number_format($tot_objektif / 10, 2) . " },";
+	echo "{oleh: 'Profesional', nilai: " . number_format($tot_keterampilan / 10, 2) . " }";
 	echo "];";
 	?>
 </script>
@@ -160,28 +158,23 @@ $ak = ($tot_arr['atasan'] + $tot_arr['guru'] + $tot_arr['sendiri']) / $jumlah;
 					<tbody align="center">
 						<tr>
 							<td scope="row">1</td>
-							<td>9.6 - 10</td>
-							<td>(A) Outstanding</td>
+							<td>682 - 840</td>
+							<td>(A) Sangat Baik</td>
 						</tr>
 						<tr>
 							<td scope="row">2</td>
-							<td>7.6 – 9.5</td>
-							<td>(B) Exceed Expectation</td>
+							<td>525 - 681</td>
+							<td>(B) Baik</td>
 						</tr>
 						<tr>
 							<td scope="row">3</td>
-							<td>5.6 – 7.5</td>
-							<td>(C) Meets Expectation</td>
+							<td>366 - 524</td>
+							<td>(C) Kurang</td>
 						</tr>
 						<tr>
 							<td scope="row">4</td>
-							<td>3.6 – 5.5</td>
-							<td>(D) Needs Improvement</td>
-						</tr>
-						<tr>
-							<td scope="row">5</td>
-							<td>0 – 3.5</td>
-							<td>(E) Problematic</td>
+							<td>210 - 365</td>
+							<td>(D) Sangat Kurang</td>
 						</tr>
 					</tbody>
 				</table>
@@ -192,7 +185,7 @@ $ak = ($tot_arr['atasan'] + $tot_arr['guru'] + $tot_arr['sendiri']) / $jumlah;
 
 
 <div class="row">
-	<div class="col-md-12">
+	<div class="col-md-6">
 		<div class="card shadow mb-4">
 			<!-- /.card-header -->
 
@@ -243,8 +236,9 @@ $ak = ($tot_arr['atasan'] + $tot_arr['guru'] + $tot_arr['sendiri']) / $jumlah;
 		</div>
 	</div>
 
-	<!-- <div class="col-md-6">
+	<div class="col-md-6">
 		<div class="card shadow mb-4">
+			<!-- /.card-header -->
 
 			<div class="card-body">
 				<div class="d-flex justify-content-start align-items-center mt-2 mb-5 mx-1">
@@ -253,7 +247,7 @@ $ak = ($tot_arr['atasan'] + $tot_arr['guru'] + $tot_arr['sendiri']) / $jumlah;
 				<div id="chart-nilai-perwakilan"></div>
 			</div>
 		</div>
-	</div> -->
+	</div>
 	<div class="col-md-6">
 		<div class="card shadow mb-4">
 			<!-- /.card-header -->
@@ -274,7 +268,7 @@ $ak = ($tot_arr['atasan'] + $tot_arr['guru'] + $tot_arr['sendiri']) / $jumlah;
 
 	//console.log(size);
 	var color = d3.scaleLinear()
-		.domain([0, 5.5, 7.5, 9.5, 10])
+		.domain([0, 365, 524, 681, 840])
 		.range(['#db4639', '#FFCD42', '#48ba17', '#12ab24', '#0f9f59']);
 
 	var arc = d3.arc()
@@ -326,7 +320,7 @@ $ak = ($tot_arr['atasan'] + $tot_arr['guru'] + $tot_arr['sendiri']) / $jumlah;
 		.attr('class', 'scale');
 
 	scale.append('text')
-		.text(10)
+		.text(840)
 		.attr('text-anchor', 'middle')
 		.attr('x', (size - thickness / 2));
 
@@ -356,7 +350,7 @@ $ak = ($tot_arr['atasan'] + $tot_arr['guru'] + $tot_arr['sendiri']) / $jumlah;
 	}
 
 	function arcTween(transition, v) {
-		var newAngle = v / 10 * Math.PI - Math.PI / 2;
+		var newAngle = v / 840 * Math.PI - Math.PI / 2;
 		transition.attrTween('d', function(d) {
 			var interpolate = d3.interpolate(d.endAngle, newAngle);
 			return function(t) {
@@ -393,16 +387,14 @@ $ak = ($tot_arr['atasan'] + $tot_arr['guru'] + $tot_arr['sendiri']) / $jumlah;
 	function rentang(v) {
 		v = Number(v);
 
-		if (v <= 10 && v >= 9.6) {
-			return "Outstanding";
-		} else if (v <= 9.5 && v >= 7.6) {
-			return "Exceed Expectation";
-		} else if (v <= 7.5 && v >= 5.6) {
-			return "Meets Expectation";
-		} else if (v <= 5.5 && v >= 3.6) {
-			return "Needs Improvement";
-		} else if (v <= 3.6) {
-			return "Problematic";
+		if (v <= 840 && v >= 682) {
+			return "Sangat Baik";
+		} else if (v <= 681 && v >= 525) {
+			return "Baik";
+		} else if (v <= 524 && v >= 366) {
+			return "Kurang";
+		} else if (v <= 365) {
+			return "Sangat Kurang";
 		} else {
 			return "#";
 		}
@@ -431,7 +423,7 @@ $ak = ($tot_arr['atasan'] + $tot_arr['guru'] + $tot_arr['sendiri']) / $jumlah;
 
 	var yScale = d3.scaleLinear()
 		.range([bar_height, 0])
-		.domain([0, 10]);
+		.domain([0, 1600]);
 
 
 	var makeYLines = () => d3.axisLeft()
@@ -488,13 +480,13 @@ $ak = ($tot_arr['atasan'] + $tot_arr['guru'] + $tot_arr['sendiri']) / $jumlah;
 		.attr("fill", function(g) {
 			//['#db4639', '#FFCD42', '#48ba17', '#12ab24', '#0f9f59']
 			var v = g.nilai;
-			if (v >= 9.6) {
+			if (v >= 682) {
 				return "#0f9f59";
-			} else if (v >= 7.6) {
+			} else if (v >= 525) {
 				return "#12ab24";
-			} else if (v >= 5.6) {
+			} else if (v >= 366) {
 				return "#48ba17";
-			} else if (v >= 3.6) {
+			} else if (v >= 201) {
 				return "#FFCD42";
 			} else {
 				return "#db4639";
@@ -567,7 +559,7 @@ $ak = ($tot_arr['atasan'] + $tot_arr['guru'] + $tot_arr['sendiri']) / $jumlah;
 
 	var yScale = d3.scaleLinear()
 		.range([bar_height, 0])
-		.domain([0, 10]);
+		.domain([0, 400]);
 
 	var makeYLines = () => d3.axisLeft()
 		.scale(yScale)
@@ -625,13 +617,13 @@ $ak = ($tot_arr['atasan'] + $tot_arr['guru'] + $tot_arr['sendiri']) / $jumlah;
 		.attr("fill", function(g) {
 			//['#db4639', '#FFCD42', '#48ba17', '#12ab24', '#0f9f59']
 			var v = g.nilai;
-			if (v >= 10) {
+			if (v >= 300) {
 				return "#0f9f59";
-			} else if (v >= 9.5) {
+			} else if (v >= 200) {
 				return "#12ab24";
-			} else if (v >= 7.5) {
+			} else if (v >= 100) {
 				return "#48ba17";
-			} else if (v >= 5.5) {
+			} else if (v >= 50) {
 				return "#FFCD42";
 			} else {
 				return "#db4639";
